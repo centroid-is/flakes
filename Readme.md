@@ -1,10 +1,10 @@
 # Verify the build
-```
+```bash
 nix flake check  # Verify the flake please remember to commit before checking
 nix build .#tfc-hmi  # Build the package
 ```
 # Update the flake lock file
-```
+```bash
 nix flake lock
 # or todo
 nix flake lock --update-input nixpkgs
@@ -72,4 +72,10 @@ Or use systemPackages:
   environment.systemPackages = with pkgs; [
     tfc-packages.packages.x86_64-linux.tfc-hmi
   ];
+```
+
+## Install
+
+```bash
+sudo nixos-rebuild switch
 ```
