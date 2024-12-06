@@ -79,3 +79,7 @@ Or use systemPackages:
 ```bash
 sudo nixos-rebuild switch
 ```
+
+# Packaging
+
+Please see https://nixos.wiki/wiki/Packaging/Binaries for more information.

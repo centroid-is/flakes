@@ -6,18 +6,16 @@ let
     url = "https://github.com/centroid-is/tfc-hmi/releases/download/v${version}/example-elinux.tar.gz";
     sha256 = "278dddd44e93ff1936886a4ad7f97913fc36307ee64ab81980444837a07c3338";
   };
-  tfc-hmi-bin = stdenv.mkDerivation {
+  package = stdenv.mkDerivation {
     pname = "tfc-hmi-bin";
     inherit version src;
     sourceRoot = ".";
-    installPhase = ''
-      mkdir -p $out
-      cp -r * $out/
-    '';
-  };
-  package = pkgs.buildFHSUserEnv {
-    name = "tfc-hmi";
-    targetPkgs = pkgs: [
+
+    nativeBuildInputs = [
+      pkgs.autoPatchelfHook
+    ];
+
+    buildInputs = [
       wayland
       libxkbcommon
       fontconfig
@@ -25,14 +23,31 @@ let
       vulkan-loader
       mesa
     ];
-    runScript = "${tfc-hmi-bin}/example --bundle=${tfc-hmi-bin}";
+
+    installPhase = ''
+      mkdir -p $out/
+      cp -r * $out/
+    '';
+
+    postFixup = let
+      rpath = lib.makeLibraryPath [
+        wayland
+        libxkbcommon
+        fontconfig
+        libGL
+        vulkan-loader
+        mesa
+      ];
+    in ''
+      patchelf --set-rpath "${rpath}" $out/example
+      patchelf --set-rpath "${rpath}" $out/lib/libflutter_elinux_wayland.so
+      patchelf --set-rpath "${rpath}" $out/lib/libflutter_engine.so
+    '';
   };
 in
 {
-  # Export the package
   inherit package;
 
-  # NixOS module for the service
   nixosModule = { config, lib, pkgs, ... }: {
     options = {
       services.tfc-hmi.enable = lib.mkEnableOption "TFC HMI Service";
@@ -53,7 +68,7 @@ in
       systemd.services.tfc-hmi = {
         description = "tfc-hmi";
         serviceConfig = {
-          ExecStart = "${package}/bin/tfc-hmi";
+          ExecStart = "${package}/example --bundle=${package}";
           RuntimeDirectory = "tfc";
           User = "tfc";
           Group = "users";
