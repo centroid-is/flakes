@@ -15,16 +15,50 @@ let
       cp -r * $out/
     '';
   };
+  package = pkgs.buildFHSUserEnv {
+    name = "tfc-hmi";
+    targetPkgs = pkgs: [
+      wayland
+      libxkbcommon
+      fontconfig
+      libGL
+      vulkan-loader
+      mesa
+    ];
+    runScript = "${tfc-hmi-bin}/example --bundle=${tfc-hmi-bin}";
+  };
 in
-pkgs.buildFHSUserEnv {
-  name = "tfc-hmi";
-  targetPkgs = pkgs: [
-    wayland
-    libxkbcommon
-    fontconfig
-    libGL
-    vulkan-loader
-    mesa
-  ];
-  runScript = "${tfc-hmi-bin}/example --bundle=${tfc-hmi-bin}";
+{
+  # Export the package
+  inherit package;
+
+  # NixOS module for the service
+  nixosModule = { config, lib, pkgs, ... }: {
+    options = {
+      services.tfc-hmi.enable = lib.mkEnableOption "TFC HMI Service";
+    };
+
+    config = lib.mkIf config.services.tfc-hmi.enable {
+      users.users.tfc = {
+        isSystemUser = true;
+        group = "users";
+      };
+
+      systemd.services.tfc-hmi = {
+        description = "tfc-hmi";
+        serviceConfig = {
+          ExecStart = "${package}/bin/tfc-hmi";
+          RuntimeDirectory = "tfc";
+          User = "tfc";
+          Group = "users";
+        };
+        environment = {
+          WAYLAND_DISPLAY = "wayland-1";
+          XDG_RUNTIME_DIR = "/run/user/1000"; # todo get 1000 from user
+        };
+        after = [ "weston.service" ];
+        wantedBy = [ "default.target" ];
+      };
+    };
+  };
 }
