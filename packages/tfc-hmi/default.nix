@@ -39,10 +39,16 @@ in
     };
 
     config = lib.mkIf config.services.tfc-hmi.enable {
-      users.users.tfc = {
-        isSystemUser = true;
-        group = "users";
-      };
+      assertions = [
+        {
+          assertion = config.users.users ? tfc;
+          message = "User 'tfc' must exist to run tfc-hmi service";
+        }
+        {
+          assertion = config.users.users.tfc.group == "users";
+          message = "User 'tfc' must be in group 'users'";
+        }
+      ];
 
       systemd.services.tfc-hmi = {
         description = "tfc-hmi";
