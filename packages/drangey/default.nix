@@ -1,4 +1,4 @@
-{ pkgs, lib, stdenv, fetchurl, runCommand, bash, curl, wget, jq, downloadScript, ... }:
+{ pkgs, lib, stdenv, fetchurl, ... }:
 
 let
   token = builtins.getEnv "GITHUB_TOKEN";

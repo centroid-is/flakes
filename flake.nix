@@ -17,8 +17,7 @@
       importPackage = name: import (./packages + "/${name}") {
         inherit (nixpkgs) lib;
         inherit pkgs;
-        inherit (pkgs) stdenv fetchurl wayland libxkbcommon fontconfig libGL vulkan-loader mesa runCommand bash curl wget jq;
-        downloadScript = ./gh-download-release.sh;
+        inherit (pkgs) stdenv fetchurl wayland libxkbcommon fontconfig libGL vulkan-loader mesa;
       };
       
       # Get all directories in ./packages
