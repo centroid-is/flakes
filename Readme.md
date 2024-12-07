@@ -83,3 +83,8 @@ sudo nixos-rebuild switch
 # Packaging
 
 Please see https://nixos.wiki/wiki/Packaging/Binaries for more information.
+
+
+# Notes
+
+- Pylon is not free software, therefore, non-free licenses are required. `allowUnfree` is on by default.
