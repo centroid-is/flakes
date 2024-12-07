@@ -1,5 +1,5 @@
 {
-  description = "Custom flake for tfc-hmi";
+  description = "Custom flake packages for Centroid";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
