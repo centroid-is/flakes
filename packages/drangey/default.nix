@@ -1,27 +1,22 @@
 { pkgs, lib, stdenv, fetchurl, runCommand, bash, curl, wget, jq, downloadScript, ... }:
 
 let
+  token = builtins.getEnv "GITHUB_TOKEN";
+in if builtins.stringLength token <= 1 
+then throw "GITHUB_TOKEN must be provided"
+else 
+
+let
   version = "2024.12.1";
-  src = let
-    token = builtins.getEnv "GITHUB_TOKEN";
-    filename = "linescan-${version}-Linux-x86_64-Drangey.tar.gz";
-    
-    # First, fetch the release information
-    releaseInfo = builtins.fromJSON (builtins.readFile (fetchurl {
-      url = "https://api.github.com/repos/centroid-is/linescan/releases";
-      curlOptsList = [ "-H" "Authorization: Bearer ${token}" "-H" "Accept: application/vnd.github.v3.raw" ];
-      sha256 = "sha256-gdtycuTprwGLW7eRgmp3HkboXymlvHOj0r934qmoFFM=";
-    }));
-    
-    # Find the correct release and asset
-    release = builtins.head (builtins.filter (r: r.tag_name == "v${version}") releaseInfo);
-    asset = builtins.head (builtins.filter (a: a.name == filename) release.assets);
-    
-  in fetchurl {
-    name = "drangey.tar.gz";
-    url = "https://api.github.com/repos/centroid-is/linescan/releases/assets/${toString asset.id}";
-    curlOptsList = [ "-H" "Accept: application/octet-stream" "-H" "Authorization: Bearer ${token}" ];
+  # ./github-asset-url.sh -t $GITHUB_TOKEN -r centroid-is/linescan -v v2024.12.1 -f linescan-2024.12.1-Linux-x86_64-Drangey.tar.gz
+  src = fetchurl {
+    url = "https://api.github.com/repos/centroid-is/linescan/releases/assets/211765409"; # v2024.12.1
+    curlOptsList = [
+      "-H" "Accept: application/octet-stream"
+      "-H" "Authorization: Bearer ${token}"
+    ];
     sha256 = "sha256-kgu1rXxwKksyihAtk0YooGmfZtyu5irlweRQuF3wAQ4=";
+    name = "drangey-${version}.tar.gz";
   };
   package = stdenv.mkDerivation {
     pname = "drangey";

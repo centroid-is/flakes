@@ -88,3 +88,12 @@ Please see https://nixos.wiki/wiki/Packaging/Binaries for more information.
 # Notes
 
 - Pylon is not free software, therefore, non-free licenses are required. `allowUnfree` is on by default.
+
+# Github private repositories
+
+Adding and updating github private repositories is done by the `github-asset-url.sh` script.
+
+```bash
+./github-asset-url.sh -t $GITHUB_TOKEN -r <organization>/<repository> -v <version> -f <filename>
+# this will print the asset url to stdout which can be used in the flake
+```
