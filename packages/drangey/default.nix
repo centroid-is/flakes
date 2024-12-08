@@ -7,15 +7,15 @@ then throw "GITHUB_TOKEN must be provided"
 else 
 
 let
-  version = "2024.12.1";
-  # ./github-asset-url.sh -t $GITHUB_TOKEN -r centroid-is/linescan -v v2024.12.1 -f linescan-2024.12.1-Linux-x86_64-Drangey.tar.gz
+  version = "2024.12.2";
+  # ./github-asset-url.sh -t $GITHUB_TOKEN -r centroid-is/linescan -v v2024.12.2 -f linescan-2024.12.2-Linux-x86_64-Drangey.tar.gz
   src = fetchurl {
-    url = "https://api.github.com/repos/centroid-is/linescan/releases/assets/211765409"; # v2024.12.1
+    url = "https://api.github.com/repos/centroid-is/linescan/releases/assets/211870172"; # v2024.12.2
     curlOptsList = [
       "-H" "Accept: application/octet-stream"
       "-H" "Authorization: Bearer ${token}"
     ];
-    sha256 = "sha256-kgu1rXxwKksyihAtk0YooGmfZtyu5irlweRQuF3wAQ4=";
+    sha256 = "sha256-CA5fi7CA6LneHuOiXRsLRfhzHe3abje95u9Tr0qTWK0=";
     name = "drangey-${version}.tar.gz";
   };
   package = stdenv.mkDerivation {
@@ -37,7 +37,9 @@ let
 
     installPhase = ''
       mkdir -p $out/bin
+      mkdir -p $out/etc/linescan
       cp -r usr/local/bin/Drangey $out/bin/Drangey
+      cp -r usr/local/etc/linescan/config.yaml $out/etc/linescan/config.yaml
     '';
   };
 in
