@@ -72,6 +72,8 @@ in
           RuntimeDirectory = "tfc";
           User = "tfc";
           Group = "users";
+          Restart = "always";
+          RestartSec = "3s";
         };
         environment = {
           WAYLAND_DISPLAY = "wayland-1";
