@@ -15,17 +15,18 @@ let
       "-H" "Accept: application/octet-stream"
       "-H" "Authorization: Bearer ${token}"
     ];
-    sha256 = "sha256-CA5fi7CA6LneHuOiXRsLRfhzHe3abje95u9Tr0qTWK0=";
+    sha256 = "sha256-zHPEReUo3e9LKvs9oSab4Y/54dN40K9efORv0qDxFUg=";
     name = "best_model.pt";
   };
   package = stdenv.mkDerivation {
     pname = "linescan-model";
     inherit version src;
+    dontUnpack = true;
     sourceRoot = ".";
 
     installPhase = ''
       mkdir -p $out/
-      cp -r best_model.pt $out/best_model.pt
+      cp $src $out/best_model.pt
       # todo is this the way?
     '';
   };
