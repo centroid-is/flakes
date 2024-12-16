@@ -1,4 +1,4 @@
-{ pkgs, lib, stdenv, fetchurl, ... }:
+{ pkgs, lib, stdenv, fetchurl, wayland, libxkbcommon, fontconfig, libGL, vulkan-loader, mesa }:
 
 let
   token = builtins.getEnv "GITHUB_TOKEN";
@@ -7,7 +7,7 @@ then throw "GITHUB_TOKEN must be provided"
 else 
 
 let
-  version = "2024.12.2";
+  version = "2024.12.0";
   # ./github-asset-url.sh -t $GITHUB_TOKEN -r centroid-is/blossom -v v2024.12.0 -f shrimp-batcher.tar.gz
   src = fetchurl {
     url = "https://api.github.com/repos/centroid-is/blossom/releases/assets/213703732"; # v2024.12.0
@@ -15,7 +15,7 @@ let
       "-H" "Accept: application/octet-stream"
       "-H" "Authorization: Bearer ${token}"
     ];
-    sha256 = "sha256-CA5fi7CA6LneHuOiXRsLRfhzHe3abje95u9Tr0qTWK0=";
+    sha256 = "sha256-DmRDedDnk/+9qKX3o1AFbeIEWlpxJeEIvBVG7QBzJK4=";
     name = "shrimp-batcher.tar.gz";
   };
   package = stdenv.mkDerivation {
