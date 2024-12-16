@@ -1,7 +1,7 @@
 # Verify the build
 ```bash
 nix flake check  # Verify the flake please remember to commit before checking
-nix build .#tfc-hmi  # Build the package
+nix build .#tfc-hmi  # Build the package, if private add flag --impure to propagate the github token
 ```
 # Update the flake lock file
 ```bash
