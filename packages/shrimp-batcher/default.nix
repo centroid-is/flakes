@@ -63,6 +63,7 @@ in
   nixosModule = { config, lib, pkgs, ... }: {
     options = {
       services.shrimp-batcher.enable = lib.mkEnableOption "Shrimp Batcher Service";
+      services.shrimp-batcher-hmi.enable = lib.mkEnableOption "Shrimp Batcher HMI Service";
     };
 
     config = lib.mkIf config.services.shrimp-batcher.enable {
