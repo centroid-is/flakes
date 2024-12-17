@@ -3,6 +3,7 @@ let
   pkgs = import nixpkgs { config = {}; overlays = []; };
 in
 {
-  tfc-hmi = pkgs.callPackage ./packages/tfc-hmi { };
-  pylon = pkgs.callPackage ./packages/pylon { };
+  tfc-hmi = pkgs.callPackage ./tfc-hmi { };
+  pylon = pkgs.callPackage ./pylon { };
+  modbus = pkgs.callPackage ./modbus { };
 }
