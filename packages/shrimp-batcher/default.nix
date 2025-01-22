@@ -98,7 +98,7 @@ in
       systemd.services.shrimp-batcher-hmi = {
         description = "shrimp-batcher-hmi";
         serviceConfig = {
-          ExecStart = "${package}/hmi --bundle=${package}";
+          ExecStart = "${package}/hmi --bundle=${package} --fullscreen --onscreen-keyboard";
           RuntimeDirectory = "tfc";
           User = "tfc";
           Group = "users";

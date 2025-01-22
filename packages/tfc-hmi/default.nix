@@ -68,7 +68,7 @@ in
       systemd.services.tfc-hmi = {
         description = "tfc-hmi";
         serviceConfig = {
-          ExecStart = "${package}/example --bundle=${package}";
+          ExecStart = "${package}/example --bundle=${package} --fullscreen --onscreen-keyboard";
           RuntimeDirectory = "tfc";
           User = "tfc";
           Group = "users";
