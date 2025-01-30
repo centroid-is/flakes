@@ -7,15 +7,15 @@ then throw "GITHUB_TOKEN must be provided"
 else 
 
 let
-  version = "2025.1.4";
+  version = "2025.1.5";
   # ./github-asset-url.sh -t $GITHUB_TOKEN -r centroid-is/blossom -v v2024.12.0 -f shrimp-batcher.tar.gz
   src = fetchurl {
-    url = "https://api.github.com/repos/centroid-is/blossom/releases/assets/224001748"; # v2025.1.4
+    url = "https://api.github.com/repos/centroid-is/blossom/releases/assets/224653737"; # v2025.1.5
     curlOptsList = [
       "-H" "Accept: application/octet-stream"
       "-H" "Authorization: Bearer ${token}"
     ];
-    sha256 = "sha256-DzTpDD/gfxX9yy1RYcl9zH9q7RyPRKAgqDTYkXM/I50=";
+    sha256 = "sha256-SmhpYMm2cWWEkFbewOCn8cBxPTUXSdTML7MMIFTjtBk=";
     name = "shrimp-batcher.tar.gz";
   };
   package = stdenv.mkDerivation {
