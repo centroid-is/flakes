@@ -18,8 +18,10 @@ jobs:
       - name: Get latest release info
 
         id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          gh auth login --with-token < ${{ secrets.GH_PAT }}
+          echo "$GITHUB_TOKEN" | gh auth login --with-token
 
           # Get latest release info
           LATEST_RELEASE=$(gh release view --repo centroid-is/blossom --json tagName,assets)
