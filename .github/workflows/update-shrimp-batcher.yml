@@ -56,6 +56,9 @@ jobs:
           sed -i "s|https://api.github.com/repos/centroid-is/blossom/releases/assets/[0-9]\\+|$ASSET_URL|" packages/shrimp-batcher/default.nix
           sed -i "s/sha256 = \"sha256-[^\"]*\"/sha256 = \"sha256-$NEW_HASH\"/" packages/shrimp-batcher/default.nix
 
+          # Clean up the downloaded file
+          rm shrimp-batcher.tar.gz
+
       - name: Create Pull Request
         if: steps.release.outputs.current_version != steps.release.outputs.new_version
         uses: peter-evans/create-pull-request@v6
