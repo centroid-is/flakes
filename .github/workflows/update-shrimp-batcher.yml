@@ -64,8 +64,6 @@ jobs:
       - name: Create Pull Request
         if: steps.release.outputs.current_version != steps.release.outputs.new_version
         uses: peter-evans/create-pull-request@v6
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commit-message: "chore: update shrimp-batcher to ${{ steps.release.outputs.new_version }}"
           title: "Update shrimp-batcher to ${{ steps.release.outputs.new_version }}"
