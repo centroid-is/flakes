@@ -5,7 +5,9 @@ on:
   schedule:
     - cron: '0 */6 * * *' # Run every 6 hours
 
-
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   check-and-update:
