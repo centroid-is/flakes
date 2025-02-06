@@ -15,7 +15,7 @@ let
       "-H" "Accept: application/octet-stream"
       "-H" "Authorization: Bearer ${token}"
     ];
-    sha256 = "sha256-MhNiD1fUyywYBRnPSNqOnc1KGH+zU+BgeAZ9miVkvZk=";
+    sha256 = "sha256-6JTq3OiLQAgn4oWgoYezdZm+5DYEjK4uFLLNW6N2PUw=";
     name = "shrimp-batcher.tar.gz";
   };
   package = stdenv.mkDerivation {
