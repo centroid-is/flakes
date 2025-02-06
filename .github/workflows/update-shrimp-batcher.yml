@@ -18,8 +18,9 @@ jobs:
       - name: Get latest release info
 
         id: release
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          export GH_TOKEN=${{ secrets.GH_PAT }}
           
           # Get latest release info
           LATEST_RELEASE=$(gh release view --repo centroid-is/blossom --json tagName,assets)
@@ -67,7 +68,7 @@ jobs:
         with:
           commit-message: "chore: update shrimp-batcher to ${{ steps.release.outputs.new_version }}"
           title: "Update shrimp-batcher to ${{ steps.release.outputs.new_version }}"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           body: |
             Updates shrimp-batcher from ${{ steps.release.outputs.current_version }} to ${{ steps.release.outputs.new_version }}
             
