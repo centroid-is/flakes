@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: '0 */6 * * *' # Run every 6 hours
 
+# For gh cli
+env:
+  GH_TOKEN: ${{ secrets.GH_PAT }}
+
 jobs:
   check-and-update:
     runs-on: ubuntu-latest
@@ -12,22 +16,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Get latest release info
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+
         id: release
         run: |
-          echo "Logged in"
-
           # Get latest release info
           LATEST_RELEASE=$(gh release view --repo centroid-is/blossom --json tagName,assets)
           
-          echo "Got latest release: $LATEST_RELEASE"
-
           # Extract version (removing 'v' prefix if it exists)
           VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tagName' | sed 's/^v//')
           
-          echo "Version: $VERSION"
-
           # Find the asset URL for shrimp-batcher.tar.gz
           ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[] | select(.name=="shrimp-batcher.tar.gz") | .apiUrl')
           
