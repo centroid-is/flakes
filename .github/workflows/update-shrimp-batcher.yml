@@ -16,14 +16,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: release
         run: |
-          echo ${{ secrets.PAT_TOKEN }} | gh auth login --with-token
+          echo ${{ secrets.GH_PAT }} | gh auth login --with-token
+
+          echo "Logged in"
 
           # Get latest release info
           LATEST_RELEASE=$(gh release view --repo centroid-is/blossom --json tagName,assets)
           
+          echo "Got latest release: $LATEST_RELEASE"
+
           # Extract version (removing 'v' prefix if it exists)
           VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tagName' | sed 's/^v//')
           
+          echo "Version: $VERSION"
+
           # Find the asset URL for shrimp-batcher.tar.gz
           ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[] | select(.name=="shrimp-batcher.tar.gz") | .apiUrl')
           
