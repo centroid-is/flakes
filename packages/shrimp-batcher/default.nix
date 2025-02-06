@@ -93,6 +93,7 @@ in
           User = "root";
           Group = "root";
         };
+        after = [ "network.target" ];
         wantedBy = [ "default.target" ];
       };
       systemd.services.shrimp-batcher-hmi = {
