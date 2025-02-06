@@ -17,6 +17,8 @@ jobs:
         uses: cachix/install-nix-action@v27
 
       - name: Test build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           # Test the build
           nix build .#shrimp-batcher --impure --show-trace

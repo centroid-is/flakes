@@ -42,14 +42,12 @@ jobs:
         if: steps.release.outputs.current_version != steps.release.outputs.new_version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
           NEW_VERSION: ${{ steps.release.outputs.new_version }}
           ASSET_URL: ${{ steps.release.outputs.asset_url }}
         run: |
           # Download the asset to calculate its hash
-          curl -L -H "Accept: application/octet-stream" \
-               -H "Authorization: Bearer $GITHUB_TOKEN" \
-               "$ASSET_URL" \
-               -o shrimp-batcher.tar.gz
+          gh release download --repo centroid-is/blossom --pattern "shrimp-batcher.tar.gz" "v$VERSION"
 
           # Calculate SHA256 hash in base64 format for SRI
           NEW_HASH=$(sha256sum shrimp-batcher.tar.gz | cut -d' ' -f1 | xxd -r -p | base64)
