@@ -13,11 +13,9 @@ jobs:
 
       - name: Get latest release info
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         id: release
         run: |
-          #echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-
           echo "Logged in"
 
           # Get latest release info
