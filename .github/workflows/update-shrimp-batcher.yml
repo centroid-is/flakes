@@ -51,8 +51,8 @@ jobs:
                "$ASSET_URL" \
                -o shrimp-batcher.tar.gz
 
-          # Calculate SHA256 hash and convert to base32
-          NEW_HASH=$(sha256sum shrimp-batcher.tar.gz | cut -d' ' -f1 | xxd -r -p | basenc --base32 | tr -d '=' | tr '[:upper:]' '[:lower:]')
+          # Calculate SHA256 hash and convert to base32 (keeping uppercase)
+          NEW_HASH=$(sha256sum shrimp-batcher.tar.gz | cut -d' ' -f1 | xxd -r -p | basenc --base32 | tr -d '=')
 
           # Update the Nix file
           sed -i "s/version = \".*\"/version = \"$NEW_VERSION\"/" packages/shrimp-batcher/default.nix
